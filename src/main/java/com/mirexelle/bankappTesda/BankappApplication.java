@@ -1,4 +1,4 @@
-package com.example.bankapp;
+package com.mirexelle.bankappTesda;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
