@@ -162,7 +162,7 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item"><a class="nav-link" href="/dashboard">Dashboard</a></li>
-                <li class="nav-item active"><a class="nav-link" href="/transactions">Transactions</a></li>
+                <li class="nav-item active"><a class="nav-link" href="/transactionstest">Transactions</a></li>
                 <li class="nav-item"><a class="nav-link" href="/logout">Logout</a></li>
             </ul>
         </div>
@@ -192,7 +192,7 @@
                     <td th:classappend="${transaction.type.contains('Transfer In') || transaction.type == 'Deposit'} ? 'text-success' : 'text-danger'">
                         <span th:text="${transaction.type.contains('Transfer In') || transaction.type == 'Deposit'} ? '+$' + ${transaction.amount} : '-$' + ${transaction.amount}"></span>
                     </td>
-                    <td th:text="${transaction.timestamp}"></td>
+                    <td th:text="${#temporals.format(transaction.timestamp, 'yyyy-MM-dd HH:mm:ss')}"></td>
                 </tr>
                 </tbody>
             </table>
@@ -200,7 +200,7 @@
     </div>
 
     <div class="text-center mt-4">
-        <a href="/dashboard" class="back-btn">Back to Dashboard</a>
+        <a href="/dashboardtest" class="back-btn">Back to Dashboard</a>
     </div>
 </div>
 
