@@ -29,13 +29,14 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(authz -> authz
-                        .requestMatchers("/register").permitAll()
+                        .requestMatchers("/registertest").permitAll()
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
-                        .loginPage("/login")
-                        .loginProcessingUrl("/login")
-                        .defaultSuccessUrl("/dashboard", true)
+                        .loginPage("/logintest")
+                        .loginProcessingUrl("/logintest")
+                        .defaultSuccessUrl("/dashboardtest", true)
+                        .failureUrl("/logintest?error=true")  // Add this line
                         .permitAll()
                 )
                 .logout(logout -> logout

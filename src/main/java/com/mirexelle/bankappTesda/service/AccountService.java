@@ -50,19 +50,27 @@ public class AccountService implements UserDetailsService {
     }
 
     public void deposit(Account account, BigDecimal amount){
+        // Validate that amount is positive
+        if(amount.compareTo(BigDecimal.ZERO) <= 0){
+            throw new RuntimeException("Deposit amount must be positive");
+        }
+
         account.setBalance(account.getBalance().add(amount));
         accountRepository.save(account);
         Transaction transaction = new Transaction(
                 amount,
                 "Deposit",
-                LocalDateTime.now(),
+                LocalDateTime.now().withNano(0),
                 account
         );
         transactionRepository.save(transaction);
     }
 
     public void withdraw(Account account, BigDecimal amount){
-
+        // Validate that amount is positive
+        if(amount.compareTo(BigDecimal.ZERO) <= 0){
+            throw new RuntimeException("Withdraw amount must be positive");
+        }
         if(account.getBalance().compareTo(amount) < 0){
             throw new RuntimeException("Insufficient funds");
         }
@@ -72,7 +80,7 @@ public class AccountService implements UserDetailsService {
         Transaction transaction = new Transaction(
                 amount,
                 "Withdrawal",
-                LocalDateTime.now(),
+                LocalDateTime.now().withNano(0),
                 account
         );
         transactionRepository.save(transaction);
@@ -103,6 +111,8 @@ public class AccountService implements UserDetailsService {
     public void transferAmount(Account fromAccount, String toUsername, BigDecimal amount){
         if (fromAccount.getBalance().compareTo(amount) < 0) {
             throw new RuntimeException("Insufficient funds");
+        } else if(amount.compareTo(BigDecimal.ZERO) <= 0){
+            throw new RuntimeException("Transfer amount must be positive");
         }
 
         Account toAccount = accountRepository.findByUsername(toUsername)
@@ -120,7 +130,7 @@ public class AccountService implements UserDetailsService {
         Transaction debitTransaction = new Transaction(
                 amount,
                 "Transfer Out to" + toAccount.getUsername(),
-                LocalDateTime.now(),
+                LocalDateTime.now().withNano(0),
                 fromAccount
         );
         transactionRepository.save(debitTransaction);
@@ -128,7 +138,7 @@ public class AccountService implements UserDetailsService {
         Transaction creditTransaction = new Transaction(
                 amount,
                 "Transfer In to" + fromAccount.getUsername(),
-                LocalDateTime.now(),
+                LocalDateTime.now().withNano(0),
                 toAccount
         );
         transactionRepository.save(creditTransaction);
