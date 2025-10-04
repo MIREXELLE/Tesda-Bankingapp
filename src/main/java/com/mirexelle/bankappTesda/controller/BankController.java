@@ -25,25 +25,25 @@ public class BankController {
         model.addAttribute("account", account);
         return "dashboard";
     }
-    @GetMapping("/register")
+    @GetMapping("/registertest")
     public String showRegistrationForm(){
-        return "register";
+        return "registertest";
     }
 
-    @PostMapping("/register")
+    @PostMapping("/registertest")
     public String registerAccount(@RequestParam String username,@RequestParam String password, Model model) {
         try {
             accountService.registerAccount(username, password);
-            return "redirect:/login";
+            return "redirect:/logintest";
         } catch (RuntimeException e) {
-            model.addAttribute("error,", e.getMessage());
-            return "register";
+            model.addAttribute("error", e.getMessage());
+            return "registertest";
         }
     }
 
-    @GetMapping("/login")
+    @GetMapping("/logintest")
     public String login(){
-        return "login";
+        return "logintest";
     }
 
     @PostMapping("/deposit")
